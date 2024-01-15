@@ -9,6 +9,7 @@ const SECRET = process.env.ACCESS_SECRET_KEY;
 
 const authenticateJwt = (req, res, next) => {
     const authHeader = req.headers.authorization;
+    console.log(authHeader)
   
     if (authHeader) {
       const token = authHeader.split(' ')[1];

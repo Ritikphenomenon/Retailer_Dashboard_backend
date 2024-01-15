@@ -22,7 +22,7 @@ router.post('/signup', async (req, res) => {
   
       const newUser = new User({ username, password });
       await newUser.save();
-      const token = jwt.sign({ username, role: 'user' }, SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ username, role: 'user' }, SECRET, { expiresIn: '12d' });
       res.json({ message: 'User created successfully', token });
     } catch (error) {
       console.error('Error during user signup:', error.message);
@@ -36,7 +36,7 @@ router.post('/signup', async (req, res) => {
       const user = await User.findOne({ username, password });
   
       if (user) {
-        const token = jwt.sign({ username, role: 'user' }, SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ username, role: 'user' }, SECRET, { expiresIn: '12d' });
         res.json({ message: 'Logged in successfully', token });
       } else {
         res.status(403).json({ message: 'Invalid username or password' });
@@ -47,6 +47,16 @@ router.post('/signup', async (req, res) => {
     }
   });
   
+
+  router.get('/products', authenticateJwt, async (req, res) => {
+    try {
+      const products = await Product.find({ published: true });
+      res.json({ products });
+    } catch (error) {
+      console.error('Error fetching courses:', error.message);
+      res.status(500).json({ message: 'Server error during course fetch' });
+    }
+  });
 
   
 module.exports = router

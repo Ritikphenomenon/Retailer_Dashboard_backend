@@ -48,5 +48,15 @@ router.post('/signup', async (req, res) => {
   });
   
 
+  router.get('/products', authenticateJwt, async (req, res) => {
+    try {
+      const products = await Product.find({ published: true });
+      res.json({ products });
+    } catch (error) {
+      console.error('Error fetching courses:', error.message);
+      res.status(500).json({ message: 'Server error during course fetch' });
+    }
+  });
+
   
 module.exports = router

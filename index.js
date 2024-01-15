@@ -8,7 +8,7 @@ const userRouter=require("./routes/user");
 
 
 const app=express();
-app.use(cors());
+app.use(cors({ origin: 'https://retailer-dashboard-frontend.vercel.app' }));
 app.use(express.json());
 app.use("/users",userRouter);
 
